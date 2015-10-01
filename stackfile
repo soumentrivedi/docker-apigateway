@@ -1,0 +1,26 @@
+cassandra:
+  image: 'mashape/cassandra:latest'
+  deployment_strategy: high_availability
+  expose:
+    - '22'
+    - '7000'
+    - '7001'
+    - '7199'
+    - '8888'
+    - '9160'
+  ports:
+    - '9042:9042'
+  tags:
+    - Dpaas
+  target_num_containers: 5
+kong:
+  image: 'mashape/kong:latest'
+  deployment_strategy: high_availability
+  links:
+    - cassandra
+  ports:
+    - '8000:8000'
+    - '8001:8001'
+  roles:
+    - global
+  target_num_containers: 3
